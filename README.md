@@ -1,1 +1,1 @@
-# KOR_Stock_Project
+# Korea_Stocks
