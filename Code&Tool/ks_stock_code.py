@@ -31,6 +31,7 @@ for i in range(0,31):
     x=list(range(0,len(urls)+1,25))
     urls_25.append(urls[x[i]:x[i+1]])
 
+urls_25.append(urls[-(len(urls)-(round(len(urls)/25)*25)):])
 
 html_dict ={}
 
