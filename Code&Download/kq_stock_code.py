@@ -70,8 +70,4 @@ def cover(urls):
             test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
 
-#[cover(url) for url in urls_30]
-
-for url in urls_30:
-    print(url)
-    cover(url)
+[cover(url) for url in urls_30]
