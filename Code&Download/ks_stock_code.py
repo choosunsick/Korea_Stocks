@@ -60,7 +60,7 @@ def cover(urls):
             test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0.0).astype(int)
             test2 = test2.set_index(test['date'][:30])
             test2.index = test2.index[:].strftime("%Y-%m-%d")
-            savename = "/Users/choosunsick/Desktop/Korea_Stocks/Code&Download_file/download/"+list(html_dict.keys())[i]+".csv"
+            savename = "/Users/choosunsick/Desktop/Korea_Stocks/Code&Download/download/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
 
