@@ -127,13 +127,13 @@ def mergeStock(stockNumber):
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/Download/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
-        stockData_new=stockData_new.sort_index()
+        stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData_new=stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
-        savename="/Users/choosunsick/Desktop/Korea_Stocks/Stocks_since_2018/"+stockNumber
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Stocks_since_2018/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/Download/" + stockNumber 
@@ -152,11 +152,11 @@ def merge_about_2000(stockNumber):
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData_new=stockData_new[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
+        stockData = stockData[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
         savename="/Users/choosunsick/Desktop/Korea_Stocks/Stocks_about_2000/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
