@@ -118,7 +118,6 @@ error_list = pd.DataFrame({"url":not_error_urls})
 error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list.csv",index=False)
 
 
-
 def mergeStock(stockNumber):
     """
     기존에 파일이 없는 신규 상장의 경우를 고려해서 try와 except를 사용 
@@ -145,7 +144,34 @@ def mergeStock(stockNumber):
         savename = "/Users/choosunsick/Desktop/Korea_Stocks/Stocks_since_2018/"+stockNumber
         stockData_new.to_csv(savename,index=True)
 
+def merge_about_2000(stockNumber):
+    try:
+        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Download/"  + stockNumber
+        stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
+        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/Stocks_about_2000/" + stockNumber 
+        stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
+        stockData_new = stockData_new.sort_index()
+        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData_new=stockData_new[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
+        stockData = stockData.append(stockData_new,sort=True)
+        stockData = stockData[~stockData.index.duplicated(keep='last')]
+        stockData = stockData.fillna(0.0).astype(int)
+        stockData = stockData.sort_index()
+        savename="/Users/choosunsick/Desktop/Korea_Stocks/Stocks_about_2000/"+stockNumber
+        stockData.to_csv(savename,index=True)
+    except:
+        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Download/"  + stockNumber
+        stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
+        stockData = stockData.sort_index()
+        stockData.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData=stockData[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
+        stockData = stockData.fillna(0.0).astype(int)
+        savename="/Users/choosunsick/Desktop/Korea_Stocks/Stocks_about_2000/"+stockNumber
+        stockData.to_csv(savename,index=True)
+
+
 list1=os.listdir("/Users/choosunsick/Desktop/Korea_Stocks/Download/")
 list1=[s for s in list1 if "csv" in s]
 for i in list1:
     mergeStock(i)
+    merge_about_2000(i)
