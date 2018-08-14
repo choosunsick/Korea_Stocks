@@ -112,7 +112,7 @@ while url in server_error_urls:
     cover(url) 
 
 error_list = pd.DataFrame({"url":not_error_urls})
-error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/Code&Tool/"+"error_list.csv",index=False)
+error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list.csv",index=False)
 
 
 
@@ -127,6 +127,7 @@ def mergeStock(stockNumber):
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new=stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData_new=stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
@@ -135,9 +136,10 @@ def mergeStock(stockNumber):
     except:
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/Download/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
-        stockData_new=stockData_new.sort_index()
+        stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        savename="/Users/choosunsick/Desktop/Korea_Stocks/Stocks_since_2018/"+stockNumber
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Stocks_since_2018/"+stockNumber
         stockData_new.to_csv(savename,index=True)
 
 list1=os.listdir("/Users/choosunsick/Desktop/Korea_Stocks/Download/")
