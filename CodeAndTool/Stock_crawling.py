@@ -110,7 +110,7 @@ for x in not_error_urls:
 
 not_error_urls = []
 
-while url in server_error_urls:
+for url in server_error_urls:
     print(url)
     cover(url) 
 
