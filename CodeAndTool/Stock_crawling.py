@@ -5,11 +5,14 @@ from bs4 import BeautifulSoup
 import json
 import pandas as pd
 import os
+from datetime import datetime
 
-total_code =pd.read_csv("total_stocklist.csv")
-today_normal_list=total_code[total_code.상태_08_14=="normal"]
+total_code = pd.read_csv("total_stocklist.csv")
+today = datetime.today().strftime("%Y %m %d")
+today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
 
 normal_list_fullcode =[]
+
 for x in today_normal_list.code:
     if len(str(x))==2:
         normal_list_fullcode.append("0000"+str(x))
