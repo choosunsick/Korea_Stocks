@@ -42,6 +42,8 @@ for x in kosdaq_normal_list.code:
     url = 'https://finance.yahoo.com/quote/'+str(x)+'.KQ/history?p='+ str(x) + '.KQ'
     kq_urls.append(url)
 
+full_urls = ks_urls+kq_urls
+
 urls_25 = []
 for i in range(0,round(len(ks_urls)/25)):
     x=list(range(0,len(ks_urls)+1,25))
@@ -56,10 +58,8 @@ for i in range(0,round(len(kq_urls)/30)):
 
 urls_30.append(kq_urls[-(len(kq_urls)-(round(len(kq_urls)/30)*30)):])
 
-
 html_dict = {}
 not_error_urls = []
-
 
 def cover(urls):
     async def get_site_content(url):
@@ -93,29 +93,31 @@ def cover(urls):
 
 [cover(url) for url in urls_30]
 
-server_error_urls = []
-
-for x in not_error_urls:
-    if x not in kq_urls:
-        server_error_urls.append(x)
-
-html_dict ={}
-not_error_urls = []
+html_dict = {}
 
 [cover(url) for url in urls_25]
 
+error_urls = []
+
 for x in not_error_urls:
-    if x not in ks_urls:
-        server_error_urls.append(x)
+    if x not in full_urls:
+        error_urls.append(x)
 
-not_error_urls = []
-
-for url in server_error_urls:
+for url in error_urls:
     print(url)
     cover(url) 
 
-error_list = pd.DataFrame({"url":not_error_urls})
+server_error_urls = []
+
+for x in full_urls:
+    if x not in not_error_urls:
+        server_error_urls.append(x)
+
+error_list = pd.DataFrame({"urls":server_error_urls})
 error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list.csv",index=False)
+
+crawling_list = pd.DataFrame({"urls":not_error_urls})
+crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list.csv",index=True)
 
 
 def mergeStock(stockNumber):
