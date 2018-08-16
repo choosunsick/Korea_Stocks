@@ -87,6 +87,7 @@ def cover(urls):
             test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0).astype(int)
             test2 = test2.set_index(test['date'][:30])
             test2.index = test2.index[:].strftime("%Y-%m-%d")
+            test2.columns = ['Open','High','Low','Close','Volume','Adj Close']
             savename = "/Users/choosunsick/Desktop/Korea_Stocks/temp/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
@@ -131,9 +132,11 @@ def mergeStock(stockNumber):
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
+        stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
         savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"+stockNumber
         stockData.to_csv(savename,index=True)
@@ -141,6 +144,7 @@ def mergeStock(stockNumber):
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
+        stockData = stockData.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"+stockNumber
@@ -148,26 +152,29 @@ def mergeStock(stockNumber):
 
 def merge_about_2000(stockNumber):
     try:
-        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/temp/"  + stockNumber
+        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/" + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
-        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/" + stockNumber 
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData = stockData.sort_index()
+        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
-        stockData = stockData[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
-        savename="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/"+stockNumber
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
         tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/temp/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData = stockData.sort_index()
-        stockData.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData=stockData[['Adj Close', 'Close', 'High', 'Low', 'Open', 'Volume']]
         stockData = stockData.fillna(0.0).astype(int)
+        stockData.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
         savename="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/"+stockNumber
         stockData.to_csv(savename,index=True)
 
@@ -177,3 +184,4 @@ list1=[s for s in list1 if "csv" in s]
 for i in list1:
     mergeStock(i)
     merge_about_2000(i)
+
