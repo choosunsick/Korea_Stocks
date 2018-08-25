@@ -45,18 +45,18 @@ for x in kosdaq_normal_list.code:
 full_urls = ks_urls+kq_urls
 
 urls_25 = []
-for i in range(0,round(len(ks_urls)/25)):
+for i in range(0,int(len(ks_urls)/25)):
     x=list(range(0,len(ks_urls)+1,25))
     urls_25.append(ks_urls[x[i]:x[i+1]])
 
-urls_25.append(ks_urls[-(len(ks_urls)-(round(len(ks_urls)/25)*25)):])    
+urls_25.append(ks_urls[-(len(ks_urls)-(int(len(ks_urls)/25)*25)):])    
     
 urls_30 = []
-for i in range(0,round(len(kq_urls)/30)):
+for i in range(0,int(len(kq_urls)/30)):
     x=list(range(0,len(kq_urls)+1,30))
     urls_30.append(kq_urls[x[i]:x[i+1]])
 
-urls_30.append(kq_urls[-(len(kq_urls)-(round(len(kq_urls)/30)*30)):])
+urls_30.append(kq_urls[-(len(kq_urls)-(int(len(kq_urls)/30)*30)):])
 
 html_dict = {}
 not_error_urls = []
@@ -114,11 +114,14 @@ for x in full_urls:
     if x not in not_error_urls:
         server_error_urls.append(x)
 
+date = datetime.today().strftime("%m %d")
+date = str.replace(date," ","_")
+
 error_list = pd.DataFrame({"urls":server_error_urls})
-error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list.csv",index=False)
+error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list" + "date"+ ".csv",index=False)
 
 crawling_list = pd.DataFrame({"urls":not_error_urls})
-crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list.csv",index=True)
+crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list"+"date"+ ".csv",index=True)
 
 
 def mergeStock(stockNumber):
@@ -144,7 +147,7 @@ def mergeStock(stockNumber):
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
-        stockData = stockData.fillna(0.0).astype(int)
+        stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
         savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"+stockNumber
