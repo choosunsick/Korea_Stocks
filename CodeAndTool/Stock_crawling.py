@@ -118,10 +118,10 @@ date = datetime.today().strftime("%m %d")
 date = str.replace(date," ","_")
 
 error_list = pd.DataFrame({"urls":server_error_urls})
-error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list" + "date"+ ".csv",index=False)
+error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list_" + date + ".csv",index=False)
 
 crawling_list = pd.DataFrame({"urls":not_error_urls})
-crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list"+"date"+ ".csv",index=True)
+crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list_"+  date + ".csv",index=True)
 
 
 def mergeStock(stockNumber):
