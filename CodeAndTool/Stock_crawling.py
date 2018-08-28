@@ -97,6 +97,7 @@ def cover(urls):
 html_dict = {}
 
 [cover(url) for url in urls_25]
+    
 
 error_urls = []
 
