@@ -17,24 +17,24 @@ stock_data<- do.call(cbind,lapply(stock_list,FUN = function(i){read.file(i)}))
 colnames(stock_data)<- stock_list
 
 n <- 500
-pvols<-NULL
-prets<-NULL
+pvols<-c()
+prets<-c()
 weight_data <- matrix(0,n,NCOL(stock_data))
 calculate<-function(x,n){#x=data
   mu<-matrix(colMeans(x[,1:NCOL(x)])*12,ncol = 1) 
   sigma<-as.matrix(cov(x[,1:NCOL(x)])*12) 
   inv_sigma<-as.matrix(solve(sigma))
   ivec<-rep(1,ncol(x[,1:NCOL(x)]))
-  Mu.p<-seq(0,max(mu)+0.05,length=n)
-  #Mu.p<-runif(n,min = 0,max = max(mu)+0.1)
+  #Mu.p<-seq(0,max(mu)+0.05,length=n)
+  Mu.p<-runif(n,min = 0,max = max(mu)+0.05)
   A<-matrix(c(t(mu)%*%inv_sigma%*%mu,t(ivec)%*%inv_sigma%*%mu,t(mu)%*%inv_sigma%*%ivec,t(ivec)%*%inv_sigma%*%ivec),2,2)
   for(i in 1:n){
     b<-matrix(c(Mu.p[i],1),ncol = 1)
     lambda <- solve(A,b)
     weight <-as.matrix(inv_sigma%*%(lambda[1]*mu+lambda[2]*ivec),ncol=1)
     weight_data[i,] <<- weight
-    prets<-c(prets,as.numeric(t(weight)%*%mu))
-    pvols<-c(pvols,sqrt(as.numeric(t(weight)%*%sigma%*%weight)))
+    prets<-c(prets,t(weight)%*%mu)
+    pvols<-c(pvols,sqrt(t(weight)%*%(sigma%*%weight)))
     ptemp<-data.frame(cbind(pvols,prets))
     ptemp$shape.ratio <- ptemp$pret/ptemp$pvol
   }
@@ -58,7 +58,7 @@ random_pvols <- data.frame()
 for (i in 1:500) {
   rand_5<-runif(5)
   weights<- rand_5/sum(rand_5)
-  weights<-as.matrix(weights)
+  weights<- as.matrix(weights)
   random_prets[i,1] <- sum(mu*weights)
   random_pvols[i,1] <- sqrt(t(weights)%*%(sigma%*%weights))
   p_random<-data.frame(random_prets,random_pvols)
