@@ -96,7 +96,7 @@ random_p
 
 ![단순 투자기회 집합](https://user-images.githubusercontent.com/19144813/44709797-73b0cf00-aae5-11e8-80d6-0d4be166dc2d.jpeg)
 
-이제 최적의 투자기회 집합 즉 효율적 투자선(efficient frontier)을 그려보겠습니다. 효율적 투자선은 같은 위험 수준 대비 최대 기대수익률 또는 같은 수익률 대비 최소 위험 수준을 가지는 투자 집합들을 말합니다.
+이제 최적의 투자기회 집합 즉 효율적 투자선(efficient frontier)을 그려보겠습니다. 효율적 투자선은 같은 위험 수준 대비 최대 기대수익률 또는 같은 수익률 대비 최소 위험 수준을 가지는 투자 집합들을 말합니다. 아래 코드에서 가중치 계산과 관련된 부분은 [ggwlsrb블로그](http://blog.naver.com/PostView.nhn?blogId=ggwlsrb&logNo=220940357589&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView)를 참조 했습니다.
 
 ```
 n <- 500
