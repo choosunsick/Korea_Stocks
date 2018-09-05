@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/opt/python/bin/python3.7
 
 import asyncio
 import aiohttp
