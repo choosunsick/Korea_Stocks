@@ -12,6 +12,8 @@ from datetime import datetime
 total_code = pd.read_csv("total_stocklist.csv")
 today = datetime.today().strftime("%Y %m %d")
 today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
+today_normal_list.code = today_normal_list.code.astype(int)
+
 
 normal_list_fullcode =[]
 
@@ -39,10 +41,14 @@ for x in kospi_normal_list.code:
     url = 'https://finance.yahoo.com/quote/'+str(x)+'.KS/history?p='+ str(x) + '.KS'
     ks_urls.append(url)
 
+#print(ks_urls)
+
 kq_urls = []
 for x in kosdaq_normal_list.code:
     url = 'https://finance.yahoo.com/quote/'+str(x)+'.KQ/history?p='+ str(x) + '.KQ'
     kq_urls.append(url)
+
+#print(kq_urls)
 
 full_urls = ks_urls+kq_urls
 
@@ -94,7 +100,9 @@ def cover(urls):
             test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
 
-[cover(url) for url in urls_30]
+for url in urls_30:
+    print(url)
+    cover(url) 
 
 html_dict = {}
 
