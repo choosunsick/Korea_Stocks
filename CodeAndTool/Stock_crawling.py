@@ -101,7 +101,7 @@ def cover(urls):
     return html_clean(html_dict)
 
 for url in urls_30:
-    print(url)
+    #print(url)
     cover(url) 
 
 html_dict = {}
