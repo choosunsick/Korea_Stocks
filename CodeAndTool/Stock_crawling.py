@@ -12,7 +12,7 @@ from datetime import datetime
 total_code = pd.read_csv("total_stocklist.csv")
 today = datetime.today().strftime("%Y %m %d")
 today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
-today_normal_list.code = today_normal_list.code.astype(int)
+#today_normal_list.code = today_normal_list.code.astype(int)
 
 
 normal_list_fullcode =[]
