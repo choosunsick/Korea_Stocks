@@ -84,6 +84,7 @@ def cover(urls):
     loop.run_until_complete(task)
     def html_clean(html_dict):
         for i in range(0,len(html_dict)):
+            print(list(html_dict.keys())[i])
             html = list(html_dict.values())[i]
             temp1 = html.split('\"HistoricalPriceStore\":')[1] 
             temp2 = temp1.split('],"isPending":false,"')[0]
@@ -100,9 +101,9 @@ def cover(urls):
             test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
 
-for url in urls_30:
+#for url in urls_30:
     #print(url)
-    cover(url) 
+#    cover(url) 
 
 html_dict = {}
 
