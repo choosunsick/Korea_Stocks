@@ -116,7 +116,7 @@ for x in not_error_urls:
         error_urls.append(x)
 
 for url in error_urls:
-    print(url)
+    #print(url)
     cover(url) 
 
 server_error_urls = []
