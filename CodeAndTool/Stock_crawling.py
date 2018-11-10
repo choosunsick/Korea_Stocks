@@ -69,36 +69,41 @@ urls_30.append(kq_urls[-(len(kq_urls)-(int(len(kq_urls)/30)*30)):])
 html_dict = {}
 not_error_urls = []
 
+async def fetch(session,url):
+    async with await session.get(url) as response:
+        return await response.read()
+
+def html_clean(html_dict):
+    for i in range(0,len(html_dict)):
+        print(list(html_dict.keys())[i])
+        html = list(html_dict.values())[i]
+        temp1 = html.split('\"HistoricalPriceStore\":')[1] 
+        temp2 = temp1.split('],"isPending":false,"')[0]
+        temp3 = json.dumps(temp2)
+        temp4 = temp3.replace('\\','')[11:]
+        yahoo_json = json.loads((temp4[:len(temp4)-1]+']'))
+        test = json.dumps(yahoo_json)
+        test = pd.read_json(test, orient='records')
+        test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0).astype(int)
+        test2 = test2.set_index(test['date'][:30])
+        test2.index = test2.index[:].strftime("%Y-%m-%d")
+        test2.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/temp/"+list(html_dict.keys())[i]+".csv"
+        test2.to_csv(savename,index_label='Date')
+
+
 def cover(urls):
     async def get_site_content(url):
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as resp:
-                text = await resp.read()
-                not_error_urls.append(url)
-                soup4 = BeautifulSoup(text, "html.parser")
-                temp = soup4.text.strip()
+            text = await fetch(session, url)
+            not_error_urls.append(url)
+            soup4 = BeautifulSoup(text, "html.parser")
+            temp = soup4.text.strip()
         return html_dict.update({url[-9:-3]:temp})
     contents = [get_site_content(url) for url in urls]
     loop = asyncio.get_event_loop()
     task = asyncio.wait(contents)
     loop.run_until_complete(task)
-    def html_clean(html_dict):
-        for i in range(0,len(html_dict)):
-            print(list(html_dict.keys())[i])
-            html = list(html_dict.values())[i]
-            temp1 = html.split('\"HistoricalPriceStore\":')[1] 
-            temp2 = temp1.split('],"isPending":false,"')[0]
-            temp3 = json.dumps(temp2)
-            temp4 = temp3.replace('\\','')[11:]
-            yahoo_json = json.loads((temp4[:len(temp4)-1]+']'))
-            test = json.dumps(yahoo_json)
-            test = pd.read_json(test, orient='records')
-            test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0).astype(int)
-            test2 = test2.set_index(test['date'][:30])
-            test2.index = test2.index[:].strftime("%Y-%m-%d")
-            test2.columns = ['Open','High','Low','Close','Volume','Adj Close']
-            savename = "/Users/choosunsick/Desktop/Korea_Stocks/temp/"+list(html_dict.keys())[i]+".csv"
-            test2.to_csv(savename,index_label='Date')
     return html_clean(html_dict)
 
 [cover(url) for url in urls_25]
