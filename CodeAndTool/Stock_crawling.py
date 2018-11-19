@@ -120,7 +120,7 @@ async def task(urls):
 def cover(urls):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(test2(urls))
+    loop.run_until_complete(task(urls))
     loop.close()
 
 [cover(url) for url in urls_25]
