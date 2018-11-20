@@ -98,7 +98,7 @@ def html_clean(html_dict):
 
 
 async def get_site_content(url):
-    conn = aiohttp.TCPConnector(limit=30)
+    conn = aiohttp.TCPConnector(limit=50)
     async with aiohttp.ClientSession(connector=conn) as session:
         try:
             text = await fetch(session, url)
