@@ -145,6 +145,9 @@ error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_
 crawling_list = pd.DataFrame({"urls":not_error_urls})
 crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list_"+  date + ".csv",index=True)
 
+temp_yahoo_error_list =  pd.DataFrame({"urls":new_yahoo_error})
+temp_yahoo_error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"new_yahoo_error_list"+  date + ".csv",index=True)
+
 
 def mergeStock(stockNumber):
     """
