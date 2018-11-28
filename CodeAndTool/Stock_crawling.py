@@ -127,19 +127,31 @@ def cover(urls):
 
 html_clean(html_dict)
 
+server_error_urls = []
+html_dict = {}
+
+
+for x in full_urls:
+    if x not in not_error_urls:
+        server_error_urls.append(x)
+
+cover(server_error_urls)
+html_clean(html_dict)
+
+final_error_urls = []
 if len(not_error_urls)!=len(full_urls):
-    server_error_urls = []
     for x in full_urls:
         if x not in not_error_urls:
-            server_error_urls.append(x)
+            final_error_urls.append(x)
 else:
-    server_error_urls = []
+    final_error_urls = []
     print("no remain urls")
+
 
 date = datetime.today().strftime("%m %d")
 date = str.replace(date," ","_")
 
-error_list = pd.DataFrame({"urls":server_error_urls})
+error_list = pd.DataFrame({"urls":final_error_urls})
 error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list_" + date + ".csv",index=False)
 
 crawling_list = pd.DataFrame({"urls":not_error_urls})
