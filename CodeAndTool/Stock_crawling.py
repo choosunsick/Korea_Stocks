@@ -167,7 +167,7 @@ def mergeStock(stockNumber):
     기존에 파일이 없는 신규 상장의 경우를 고려해서 try와 except를 사용 
     """
     try:
-        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"  + stockNumber
+        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
@@ -179,7 +179,7 @@ def mergeStock(stockNumber):
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
-        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"+stockNumber
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
         tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
@@ -188,7 +188,7 @@ def mergeStock(stockNumber):
         stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
-        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2018/"+stockNumber
+        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"+stockNumber
         stockData_new.to_csv(savename,index=True)
 
 def merge_about_2000(stockNumber):
