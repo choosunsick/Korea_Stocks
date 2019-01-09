@@ -10,9 +10,9 @@ import os
 from datetime import datetime
 
 total_code = pd.read_csv("total_stocklist.csv")
-today_normal_list=total_code[total_code["2019_01_08"]=="normal"]
-#today = datetime.today().strftime("%Y %m %d")
-#today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
+
+today = datetime.today().strftime("%Y %m %d")
+today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
 
 normal_list_fullcode =[]
 
