@@ -226,4 +226,3 @@ list1=[s for s in list1 if "csv" in s]
 for i in list1:
     mergeStock(i)
     merge_about_2000(i)
-
