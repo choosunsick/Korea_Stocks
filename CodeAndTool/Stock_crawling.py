@@ -16,17 +16,9 @@ today_normal_list = total_code[total_code[str.replace(today," ","_")]=="normal"]
 
 normal_list_fullcode =[]
 
-for x in today_normal_list.code:
-    if len(str(x))==2:
-        normal_list_fullcode.append("0000"+str(x))
-    elif len(str(x))==3:
-        normal_list_fullcode.append("000"+str(x))
-    elif len(str(x))==4:
-        normal_list_fullcode.append("00"+str(x))
-    elif len(str(x))==5:
-        normal_list_fullcode.append("0"+str(x))
-    else:
-        normal_list_fullcode.append(str(x))
+normal_list_fullcode =[]
+for i in today_normal_list.code:
+    normal_list_fullcode.append(str(i).zfill(6))
 
 pd.options.mode.chained_assignment = None
 
@@ -40,14 +32,10 @@ for x in kospi_normal_list.code:
     url = 'https://finance.yahoo.com/quote/'+str(x)+'.KS/history?p='+ str(x) + '.KS'
     ks_urls.append(url)
 
-#print(ks_urls)
-
 kq_urls = []
 for x in kosdaq_normal_list.code:
     url = 'https://finance.yahoo.com/quote/'+str(x)+'.KQ/history?p='+ str(x) + '.KQ'
     kq_urls.append(url)
-
-#print(kq_urls)
 
 full_urls = ks_urls+kq_urls
 
@@ -95,9 +83,8 @@ def html_clean(html_dict):
             savename = "/Users/choosunsick/Desktop/Korea_Stocks/temp/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
 
-
 async def get_site_content(url):
-    conn = aiohttp.TCPConnector(limit=50)
+    conn = aiohttp.TCPConnector(limit=None)
     async with aiohttp.ClientSession(connector=conn) as session:
         try:
             text = await fetch(session, url)
