@@ -55,8 +55,9 @@ async def fetch(session,url):
     bounde_sempahore = asyncio.BoundedSemaphore(200)
     async with bounde_sempahore:
         async with await session.get(url,timeout=30) as response:
-            await asyncio.sleep(1)
             print(response.status)
+            if response.status == 404:
+                await asyncio.sleep(100)
             return await response.read()
 
 new_yahoo_error=[]
