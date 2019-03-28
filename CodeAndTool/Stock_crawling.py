@@ -81,7 +81,7 @@ def html_clean(html_dict):
             test2 = test2.set_index(test['date'][:30])
             test2.index = test2.index[:].strftime("%Y-%m-%d")
             test2.columns = ['Open','High','Low','Close','Volume','Adj Close']
-            savename = "/Users/choosunsick/Desktop/Korea_Stocks/temp/"+list(html_dict.keys())[i]+".csv"
+            savename = "../temp/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
 
 async def get_site_content(url):
@@ -139,16 +139,16 @@ date = datetime.today().strftime("%m %d")
 date = str.replace(date," ","_")
 
 error_list = pd.DataFrame({"urls":final_error_urls})
-error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"error_list_" + date + ".csv",index=False)
+error_list.to_csv("./"+"error_list_" + date + ".csv",index=False)
 
 crawling_list = pd.DataFrame({"urls":not_error_urls})
-crawling_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"crawling_list_"+  date + ".csv",index=True)
+crawling_list.to_csv("./"+"crawling_list_"+  date + ".csv",index=True)
 
 if len(new_yahoo_error)==0:
     print("no new error")
 else:
     temp_yahoo_error_list =  pd.DataFrame({"urls":new_yahoo_error})
-    temp_yahoo_error_list.to_csv("/Users/choosunsick/Desktop/Korea_Stocks/CodeAndTool/"+"new_yahoo_error_list"+  date + ".csv",index=True)
+    temp_yahoo_error_list.to_csv("./"+"new_yahoo_error_list"+  date + ".csv",index=True)
 
 
 def mergeStock(stockNumber):
@@ -156,9 +156,9 @@ def mergeStock(stockNumber):
     기존에 파일이 없는 신규 상장의 경우를 고려해서 try와 except를 사용 
     """
     try:
-        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"  + stockNumber
+        tempPath ="../Korea_Stocks_since_2019/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
-        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
+        tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
@@ -168,25 +168,25 @@ def mergeStock(stockNumber):
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
-        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"+stockNumber
+        savename = "../Korea_Stocks_since_2019/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
-        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
+        tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
-        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_since_2019/"+stockNumber
+        savename = "../Korea_Stocks_since_2019/"+stockNumber
         stockData_new.to_csv(savename,index=True)
 
 def merge_about_2000(stockNumber):
     try:
-        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/" + stockNumber
+        tempPath ="../Korea_Stocks_Full/" + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
         stockData = stockData.sort_index()
-        tempPath = "/Users/choosunsick/Desktop/Korea_Stocks/temp/" + stockNumber 
+        tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
@@ -196,20 +196,20 @@ def merge_about_2000(stockNumber):
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
-        savename = "/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/"+stockNumber
+        savename = "../Korea_Stocks_Full/"+stockNumber
         stockData.to_csv(savename,index=True)
     except:
-        tempPath ="/Users/choosunsick/Desktop/Korea_Stocks/temp/"  + stockNumber
+        tempPath ="../temp/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
         stockData.columns = ['Open','High','Low','Close','Volume','Adj Close']
         stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
-        savename="/Users/choosunsick/Desktop/Korea_Stocks/Korea_Stocks_Full/"+stockNumber
+        savename="../Korea_Stocks_Full/"+stockNumber
         stockData.to_csv(savename,index=True)
 
 
-list1=os.listdir("/Users/choosunsick/Desktop/Korea_Stocks/temp/")
+list1=os.listdir("../temp/")
 list1=[s for s in list1 if "csv" in s]
 for i in list1:
     mergeStock(i)
