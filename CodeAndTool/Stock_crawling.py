@@ -80,7 +80,8 @@ def html_clean(html_dict):
             test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0).astype(int)
             test2 = test2.set_index(test['date'][:30])
             test2.index = test2.index[:].strftime("%Y-%m-%d")
-            test2.columns = ['Open','High','Low','Close','Volume','Adj Close']
+            test2['Date'] = test2.index
+            test2.columns = ['Date','Open','High','Low','Close','Volume','Adj_Close']
             savename = "../temp/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
 
@@ -161,52 +162,52 @@ def mergeStock(stockNumber):
         tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
-        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
-        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj_Close']]
         savename = "../Korea_Stocks_since_2019/"+stockNumber
-        stockData.to_csv(savename,index=True)
+        stockData.to_csv(savename,index_label='Date')
     except:
         tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
         savename = "../Korea_Stocks_since_2019/"+stockNumber
-        stockData_new.to_csv(savename,index=True)
+        stockData_new.to_csv(savename,index_label='Date')
 
 def merge_about_2000(stockNumber):
     try:
         tempPath ="../Korea_Stocks_Full/" + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
-        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj_Close']]
         stockData = stockData.sort_index()
         tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
-        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
+        stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
         stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
-        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj_Close']]
         savename = "../Korea_Stocks_Full/"+stockNumber
-        stockData.to_csv(savename,index=True)
+        stockData.to_csv(savename,index_label='Date')
     except:
         tempPath ="../temp/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
-        stockData.columns = ['Open','High','Low','Close','Volume','Adj Close']
-        stockData = stockData[['Open','High','Low','Close','Volume','Adj Close']]
+        stockData.columns = ['Open','High','Low','Close','Volume','Adj_Close']
+        stockData = stockData[['Open','High','Low','Close','Volume','Adj_Close']]
         savename="../Korea_Stocks_Full/"+stockNumber
-        stockData.to_csv(savename,index=True)
+        stockData.to_csv(savename,index_label='Date')
 
 
 list1=os.listdir("../temp/")
