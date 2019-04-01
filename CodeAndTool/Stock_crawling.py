@@ -80,8 +80,7 @@ def html_clean(html_dict):
             test2 = pd.concat([test['open'][:30], test['high'][:30],test['low'][:30],test['close'][:30],test['volume'][:30],test['adjclose'][:30]], axis=1).fillna(0).astype(int)
             test2 = test2.set_index(test['date'][:30])
             test2.index = test2.index[:].strftime("%Y-%m-%d")
-            test2['Date'] = test2.index
-            test2.columns = ['Date','Open','High','Low','Close','Volume','Adj_Close']
+            test2.columns = ['Open','High','Low','Close','Volume','Adj_Close']
             savename = "../temp/"+list(html_dict.keys())[i]+".csv"
             test2.to_csv(savename,index_label='Date')
 
