@@ -54,11 +54,11 @@ new_yahoo_error=[]
 async def fetch(session,url):
     bounde_sempahore = asyncio.BoundedSemaphore(200)
     async with bounde_sempahore:
-        async with await session.get(url,timeout=30) as response:
+        async with await session.get(url,timeout=30,allow_redirects=True) as response:
             print(response.status)
             if response.status == 404:
-                await asyncio.sleep(100)
-            return await response.read()
+                await asyncio.sleep(60)
+            return await response.text()
 
 new_yahoo_error=[]
 def html_clean(html_dict):
@@ -92,12 +92,10 @@ async def get_site_content(url):
         except:    
             print("connection_fail")
         else:
-            soup4 = BeautifulSoup(text, "html.parser")
-            temp = soup4.text.strip()
-            if len(temp.split('\"HistoricalPriceStore\":'))==2:
+            if len(text.split('\"HistoricalPriceStore\":'))==2:
                 not_error_urls.append(url)
                 #print(url)
-                return html_dict.update({url[-9:-3]:temp})
+                return html_dict.update({url[-9:-3]:text})
             else:
                 error_urls.append(url) 
     
