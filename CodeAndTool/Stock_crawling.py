@@ -3,7 +3,6 @@
 import asyncio
 import aiohttp
 from aiohttp import ClientSession
-from bs4 import BeautifulSoup
 import json
 import pandas as pd
 import os
