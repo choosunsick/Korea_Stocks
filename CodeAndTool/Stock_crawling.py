@@ -111,12 +111,11 @@ def cover(urls):
 
 html_clean(html_dict)
 
-server_error_urls = []
+
 html_dict = {}
 
-for x in full_urls:
-    if x not in not_error_urls:
-        server_error_urls.append(x)
+server_error_urls = [x for x in full_urls if x not in not_error_urls]
+        
 
 if len(server_error_urls)!=0:
     cover(server_error_urls)
