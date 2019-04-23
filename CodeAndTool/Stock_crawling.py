@@ -34,14 +34,13 @@ for i in range(0,int(len(test12)/25)):
 temp_25.append(test12[-(len(test12)-(int(len(test12)/25)*25)):])  
 
 def parse_html(text):
-    if len(text.split('\"HistoricalPriceStore\":'))==2:
-        stock_number = text.split("symbol")[0].split("title")[1].split(" (")[1].split(") ")[0].split(".")[0]
-        stock_number_str = f'{stock_number}.csv'
-        temp1 = text.split('\"HistoricalPriceStore\":')[1].split('],"isPending":false,"')[0] 
-        temp1 = json.dumps(temp1)
-        temp1 = temp1.replace('\\','')[11:]
-        yahoo_json = json.loads((temp1[:len(temp1)-1]+']'))
-        return{"json":yahoo_json,"stock_number":stock_number_str}
+    stock_number = text.split("symbol")[0].split("title")[1].split(" (")[1].split(") ")[0].split(".")[0]
+    stock_number_str = f'{stock_number}.csv'
+    temp1 = text.split('\"HistoricalPriceStore\":')[1].split('],"isPending":false,"')[0] 
+    temp1 = json.dumps(temp1)
+    temp1 = temp1.replace('\\','')[11:]
+    yahoo_json = json.loads((temp1[:len(temp1)-1]+']'))
+    return{"json":yahoo_json,"stock_number":stock_number_str}
 
 def write_csv(yahoo_json):
     test = json.dumps(yahoo_json['json'])
