@@ -180,8 +180,8 @@ for i in list1:
     if date not in temp.index:
         re_list.append(i)
 
-date_false = pd.DataFrame({"urls":re_list})
-date_false.to_csv("./"+"date_error_" + today_date + ".csv",index=False)
+date_false = pd.DataFrame({"code":re_list})
+date_false.to_csv("./"+"date_error_" + date + ".csv",index=False)
 
 error_list = pd.DataFrame({"code":final_error_list})
 error_list.to_csv("./"+"error_list_" + date + ".csv",index=False)
