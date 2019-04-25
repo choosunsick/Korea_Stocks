@@ -38,7 +38,7 @@ def parse_html(text):
         stock_number = text.split("symbol")[0].split("title")[1].split(" (")[1].split(") ")[0].split(".")[0]
     except:
         stock_number = text.split("url")[1].split("/")[3].split(".")[0]
-    else:
+    finally:
         stock_number_str = f'{stock_number}.csv'
         temp1 = text.split('\"HistoricalPriceStore\":')[1].split('],"isPending":false,"')[0] 
         temp1 = json.dumps(temp1)
