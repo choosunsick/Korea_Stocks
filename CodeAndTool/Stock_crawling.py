@@ -129,7 +129,7 @@ def mergeStock(stockNumber):
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         stockData_new = stockData_new.sort_index()
         stockData_new = stockData_new.fillna(0.0).astype(int)
-        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj Close']
+        stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
         savename = "../Korea_Stocks_since_2019/"+stockNumber
         stockData_new.to_csv(savename,index_label='Date')
@@ -185,6 +185,8 @@ for i in list1:
 
 date_false = pd.DataFrame({"code":re_list})
 date_false.to_csv("./"+"date_error_" + date + ".csv",index=False)
+
+final_error_list.append(error_list_404)
 
 error_list = pd.DataFrame({"code":final_error_list})
 error_list.to_csv("./"+"error_list_" + date + ".csv",index=False)
