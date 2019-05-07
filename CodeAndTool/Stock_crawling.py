@@ -92,7 +92,7 @@ def full_stack(code_list):
         
     return error_list
 
-final_error_list = []
+new_error_list = []
 def retry_error_list(error_list):
     if len(error_list)!=0:
         temp = stock_download(error_list)
@@ -100,9 +100,9 @@ def retry_error_list(error_list):
             try:
                 write_csv(parse_html(item['text']))
             except:
-                final_error_list.append(error_list)
+                new_error_list.append(error_list)
 
-    return final_error_list
+    return new_error_list
 
 
 def mergeStock(stockNumber):
@@ -169,7 +169,7 @@ print(len(error_list))
 print(len(error_list_404))
 
 retry_error_list(error_list)
-retry_error_list(error_list_404)
+final_error_list = retry_error_list(error_list_404)
 
 date = str.replace(datetime.today().strftime("%Y %m %d")," ","-")
 
