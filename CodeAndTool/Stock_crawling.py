@@ -118,7 +118,7 @@ def mergeStock(stockNumber):
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        stockData = stockData.append(stockData_new,sort=True)
+        stockData = stockData.append(stockData_new[str.replace(today_date,"_","-")],sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
@@ -146,7 +146,7 @@ def merge_about_2000(stockNumber):
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        stockData = stockData.append(stockData_new,sort=True)
+        stockData = stockData.append(stockData_new[str.replace(today_date,"_","-")],sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
@@ -172,7 +172,7 @@ print(len(error_list_404))
 retry_error_list(error_list)
 final_error_list = retry_error_list(error_list_404)
 
-date = str.replace(datetime.today().strftime("%Y %m %d")," ","-")
+date = str.replace(today_date,"_","-")
 
 list1=os.listdir("../temp/")
 list1=[s for s in list1 if "csv" in s]
