@@ -54,6 +54,7 @@ def write_csv(yahoo_json):
     test2.index = test2.index[:].strftime("%Y-%m-%d")
     test2 = test2[['open','high','low','close','volume','adjclose']]
     test2.columns = ['Open','High','Low','Close','Volume','Adj_Close']
+    test2 = test2[(test2.T != 0).any()]
     savename = f"../temp/{yahoo_json['stock_number']}"
     test2.to_csv(savename,index_label='Date')
 
@@ -118,7 +119,7 @@ def mergeStock(stockNumber):
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        stockData = stockData.append(stockData_new[str.replace(today_date,"_","-")],sort=True)
+        stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
@@ -146,7 +147,7 @@ def merge_about_2000(stockNumber):
         stockData_new = stockData_new.sort_index()
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        stockData = stockData.append(stockData_new[str.replace(today_date,"_","-")],sort=True)
+        stockData = stockData.append(stockData_new,sort=True)
         stockData = stockData[~stockData.index.duplicated(keep='last')]
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData.sort_index()
@@ -178,11 +179,12 @@ list1=os.listdir("../temp/")
 list1=[s for s in list1 if "csv" in s]
 re_list = []
 for i in list1:
-    mergeStock(i)
-    merge_about_2000(i)
     temp = pd.read_csv(f"../temp/{i}",index_col=0, parse_dates=True, dayfirst=True)
     if date not in temp.index:
         re_list.append(i)
+
+    mergeStock(i)
+    merge_about_2000(i)
 
 date_false = pd.DataFrame({"code":re_list})
 date_false.to_csv("./"+"date_error_" + date + ".csv",index=False)
