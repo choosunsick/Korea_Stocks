@@ -1,5 +1,3 @@
-#!/usr/local/opt/python/bin/python3.7
-
 import asyncio 
 import aiohttp
 import json
@@ -69,7 +67,7 @@ def stock_download(code_list):
         conn = aiohttp.TCPConnector(limit=None)
         async with aiohttp.ClientSession(connector=conn) as session:
             async with bounde_sempahore:
-                async with session.get(f'https://finance.yahoo.com/quote/{code}.{KSorKQ}/history?p={code}.{KSorKQ}',allow_redirects=True,timeout=300) as resp:
+                async with session.get(f'https://finance.yahoo.com/quote/{code}.{KSorKQ}/history?p={code}.{KSorKQ}',allow_redirects=True,timeout=100) as resp:
                     print(resp.status)
                     try:
                         results.append({'code': code, 'text': await resp.text(), "KS&KQ":KSorKQ})
@@ -191,5 +189,3 @@ date_false.to_csv("./"+"date_error_" + date + ".csv",index=False)
 
 error_list = pd.DataFrame({"code":new_error_list})
 error_list.to_csv("./"+"error_list_" + date + ".csv",index=False)
-
-
