@@ -23,13 +23,13 @@ for i in range(0,len(total_temp)):
 
 test12 = [{'code':i,'KS&KQ':j['is_KS']} for i,j in test_json.items() if j['Date'][today_date] == 'normal']
 
-temp_25 = []
+temp_10 = []
 
-for i in range(0,int(len(test12)/25)):
-    x=list(range(0,len(test12)+1,25))
-    temp_25.append(test12[x[i]:x[i+1]])    
+for i in range(0,int(len(test12)/10)):
+    x=list(range(0,len(test12)+1,10))
+    temp_10.append(test12[x[i]:x[i+1]])    
 
-temp_25.append(test12[-(len(test12)-(int(len(test12)/25)*25)):])  
+temp_10.append(test12[-(len(test12)-(int(len(test12)/10)*10)):])  
 
 def parse_html(text):
     try:
@@ -162,7 +162,7 @@ def merge_about_2000(stockNumber):
         savename="../Korea_Stocks_Full/"+stockNumber
         stockData.to_csv(savename,index_label='Date')
 
-for i in temp_25:
+for i in temp_10:
     full_stack(i)
 
 print(len(error_list))
