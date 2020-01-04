@@ -110,7 +110,7 @@ def mergeStock(stockNumber):
     기존에 파일이 없는 신규 상장의 경우를 고려해서 try와 except를 사용 
     """
     try:
-        tempPath ="../Korea_Stocks_since_2019/"  + stockNumber
+        tempPath ="../Korea_Stocks_since_2020/"  + stockNumber
         stockData = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
         tempPath = "../temp/" + stockNumber 
         stockData_new = pd.read_csv(tempPath, index_col=0, parse_dates=True, dayfirst=True)
@@ -122,7 +122,7 @@ def mergeStock(stockNumber):
         stockData = stockData.sort_index()
         stockData = stockData.fillna(0.0).astype(int)
         stockData = stockData[['Open','High','Low','Close','Volume','Adj_Close']]
-        savename = "../Korea_Stocks_since_2019/"+stockNumber
+        savename = "../Korea_Stocks_since_2020/"+stockNumber
         stockData.to_csv(savename,index_label='Date')
     except:
         tempPath = "../temp/" + stockNumber 
@@ -131,7 +131,7 @@ def mergeStock(stockNumber):
         stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        savename = "../Korea_Stocks_since_2019/"+stockNumber
+        savename = "../Korea_Stocks_since_2020/"+stockNumber
         stockData_new.to_csv(savename,index_label='Date')
 
 def merge_about_2000(stockNumber):
