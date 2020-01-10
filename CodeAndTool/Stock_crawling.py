@@ -186,6 +186,3 @@ for i in list1:
 
 date_false = pd.DataFrame({"code":re_list})
 date_false.to_csv("./"+"date_error_" + date + ".csv",index=False)
-
-error_list = pd.DataFrame({"code":new_error_list})
-error_list.to_csv("./"+"error_list_" + date + ".csv",index=False)
