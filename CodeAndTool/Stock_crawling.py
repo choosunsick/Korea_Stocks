@@ -1,8 +1,8 @@
 import asyncio 
+import pandas as pd
 import aiohttp
 import json
 import os
-import pandas as pd
 from datetime import datetime
 
 total_temp = pd.read_csv("total_stocklist.csv")
