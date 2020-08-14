@@ -7,8 +7,7 @@ from datetime import datetime
 
 total_temp = pd.read_csv("total_stocklist.csv")
 
-#today_date = str.replace(datetime.today().strftime("%Y %m %d")," ","_")
-today_date = "2020_08_13"
+today_date = str.replace(datetime.today().strftime("%Y %m %d")," ","_")
 normal_list_fullcode =[]
 for i in total_temp['code']:
     normal_list_fullcode.append(str(i).zfill(6))
