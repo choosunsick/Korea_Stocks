@@ -130,7 +130,7 @@ def mergeStock(stockNumber):
         stockData_new = stockData_new.fillna(0.0).astype(int)
         stockData_new.columns = ['Open','High','Low','Close','Volume','Adj_Close']
         stockData_new = stockData_new[['Open','High','Low','Close','Volume','Adj_Close']]
-        savename = "../Korea_Stocks_since_2020/"+stockNumber
+        savename = "../Korea_Stocks_since_2021/"+stockNumber
         stockData_new.to_csv(savename,index_label='Date')
 
 def merge_about_2000(stockNumber):
